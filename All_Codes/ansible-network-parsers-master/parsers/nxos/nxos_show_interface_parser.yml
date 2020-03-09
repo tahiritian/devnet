@@ -1,0 +1,24 @@
+vars:
+  interface:
+    name: "{{ item[0].name }}"
+    link_protocol_state: "{{ item[0].oper }}"
+    admin_state: "{{ item[5].admin }}"
+    ipv4: "{{ item[1].match[0] }}"
+    mtu: "{{ item[2].match[0] }}"
+    port_mode: "{{ item[3].match[0] }}"
+    duplex: "{{ item[4].match[0] }}"
+    description: "{{ item[6].match[0] }}"
+
+keys:
+  interfaces:
+    value: "{{ interface }}"
+    start_block: "^Ethernet.+$"
+    end_block: ".+interface reset"
+    items:
+      - "^(?P<name>Ethernet.+) is (?P<oper>\\w+)"
+      - "\\s+Internet Address is (.+)"
+      - "\\s+ MTU (\\d+)"
+      - "\\s+Port mode is (\\w+)"
+      - "\\s+(\\w+-duplex)"
+      - "admin state is (?P<admin>\\w+)"
+      - "Description: (.+)"
