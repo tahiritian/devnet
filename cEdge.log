@@ -1,0 +1,301 @@
+﻿﻿cEdge#show run
+Building configuration...
+
+Current configuration : 7639 bytes
+!
+! Last configuration change at 23:52:53 UTC Sun Mar 8 2020 by NETCONF
+!
+version 16.12
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+! Call-home is enabled by Smart-Licensing.
+service call-home
+platform qfp utilization monitor load 80
+platform punt-keepalive disable-kernel-core
+platform inspect match-statistics per-filter
+platform console serial
+!
+hostname cEdge
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition 65528
+ !
+ address-family ipv4
+ exit-address-family
+!
+logging buffered 262144
+no logging rate-limit
+!
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authorization exec default local 
+!
+!
+!
+!
+!
+aaa session-id common
+call-home
+ ! If contact email address in call-home is configured as sch-smart-licensing@cisco.com
+ ! the email address configured in Cisco Smart License Portal will be used as contact email address to send SCH notifications.
+ contact-email-addr sch-smart-licensing@cisco.com
+ profile "CiscoTAC-1"
+  active
+  destination transport-method http
+  no destination transport-method email
+fhrp version vrrp v3
+no ip source-route
+!
+!
+!
+!
+!
+!
+!
+no ip dhcp use class
+!
+!
+!
+no ip igmp ssm-map query dns
+login on-success log
+ipv6 unicast-routing
+!
+!
+!         
+!
+!
+!
+!
+subscriber templating
+! 
+! 
+! 
+! 
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!         
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-4276439244
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-4276439244
+ revocation-check none
+ rsakeypair TP-self-signed-4276439244
+!
+crypto pki trustpoint SLA-TrustPoint
+ enrollment pkcs12
+ revocation-check crl
+!
+!
+crypto pki certificate chain TP-self-signed-4276439244
+ certificate self-signed 01
+  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 34323736 34333932 3434301E 170D3230 30333038 32333232 
+  35375A17 0D333030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D34 32373634 
+  33393234 34308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201 
+  0A028201 0100D139 A31C4D9E 06115121 7367A3A7 484F5A53 931F209C C7C3C146 
+  1B3EA930 0E714EE3 BA9EC1D4 814021A6 0BFAA861 777EE578 2ED03358 ADE95DBC 
+  D551470E E90A3626 5C2FE852 BF8FD7DB 77F342C3 23FC26A9 FE435592 9F9998BC 
+  2D5D2C50 2CED9C25 01AED03E E4869BF1 262D31CB 1305E83D DC025B53 FAD072BA 
+  E9C99F81 0B1E435A E55E1D8F 37D97F76 3559DC92 89383ED8 DC52F08E E3F66F40 
+  B60A7BDC E2E9FC93 E50DECEE B3C19885 D246F11D 68E4A5BD F4CB2555 8781933A 
+  49927445 7717AABC C523D110 FDAA3EB4 49E8C48A 5E2DF17A 2922144C 18255DEA 
+  C56F8C33 8FD77566 3B197448 2E0FC562 06850194 4313A9AE BB6F1BA3 85836518 
+  C423DE32 A6BD0203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 
+  301F0603 551D2304 18301680 14B682A0 0407FAC0 F20CF1C5 156D7099 C6F236BD 
+  B9301D06 03551D0E 04160414 B682A004 07FAC0F2 0CF1C515 6D7099C6 F236BDB9 
+  300D0609 2A864886 F70D0101 05050003 82010100 555DE36C F1D9C04D 396B1CD6 
+  9BA009F3 3F68C537 9E5BDEB9 04B9D10B 6ACFC852 6EB2A94E 8608A587 924BBDD1 
+  0B8FD5CC 57C4843D 0AE5C9F4 59619151 770000D0 EF472446 F0B4A909 44B0E8C9 
+  6FCC6808 E41CED28 1106ABF4 44F52E06 5AFC4009 7B9A0D22 68AD50B0 518F2AB2 
+  B77650BF 8601094C A84D3674 8500F02D AF3AA6DE DAA291E1 12977F01 5E92D3F5 
+  668791D9 9F6E0335 EBE44881 9D34B5F6 13A3BF07 51453185 2EEED2AE 18142E45 
+  AEC5BAF0 0DC68311 C91D1D60 F57A7012 1D4D6797 6C75D174 D33241F4 350CAB44 
+  9B2E634F 09BB4F62 EF611817 451871FA 3351DD0D 2BC20D0A 286C48A1 340A03B2 
+  49FA42AA A1CA5A6B 96978F1E AB5F24A2 C60D73B1
+        quit
+crypto pki certificate chain SLA-TrustPoint
+ certificate ca 01
+  30820321 30820209 A0030201 02020101 300D0609 2A864886 F70D0101 0B050030 
+  32310E30 0C060355 040A1305 43697363 6F312030 1E060355 04031317 43697363 
+  6F204C69 63656E73 696E6720 526F6F74 20434130 1E170D31 33303533 30313934 
+  3834375A 170D3338 30353330 31393438 34375A30 32310E30 0C060355 040A1305 
+  43697363 6F312030 1E060355 04031317 43697363 6F204C69 63656E73 696E6720 
+  526F6F74 20434130 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 
+  82010A02 82010100 A6BCBD96 131E05F7 145EA72C 2CD686E6 17222EA1 F1EFF64D 
+  CBB4C798 212AA147 C655D8D7 9471380D 8711441E 1AAF071A 9CAE6388 8A38E520 
+  1C394D78 462EF239 C659F715 B98C0A59 5BBB5CBD 0CFEBEA3 700A8BF7 D8F256EE 
+  4AA4E80D DB6FD1C9 60B1FD18 FFC69C96 6FA68957 A2617DE7 104FDC5F EA2956AC 
+  7390A3EB 2B5436AD C847A2C5 DAB553EB 69A9A535 58E9F3E3 C0BD23CF 58BD7188 
+  68E69491 20F320E7 948E71D7 AE3BCC84 F10684C7 4BC8E00F 539BA42B 42C68BB7 
+  C7479096 B4CB2D62 EA2F505D C7B062A4 6811D95B E8250FC4 5D5D5FB8 8F27D191 
+  C55F0D76 61F9A4CD 3D992327 A8BB03BD 4E6D7069 7CBADF8B DF5F4368 95135E44 
+  DFC7C6CF 04DD7FD1 02030100 01A34230 40300E06 03551D0F 0101FF04 04030201 
+  06300F06 03551D13 0101FF04 05300301 01FF301D 0603551D 0E041604 1449DC85 
+  4B3D31E5 1B3E6A17 606AF333 3D3B4C73 E8300D06 092A8648 86F70D01 010B0500 
+  03820101 00507F24 D3932A66 86025D9F E838AE5C 6D4DF6B0 49631C78 240DA905 
+  604EDCDE FF4FED2B 77FC460E CD636FDB DD44681E 3A5673AB 9093D3B1 6C9E3D8B 
+  D98987BF E40CBD9E 1AECA0C2 2189BB5C 8FA85686 CD98B646 5575B146 8DFC66A8 
+  467A3DF4 4D565700 6ADF0F0D CF835015 3C04FF7C 21E878AC 11BA9CD2 55A9232C 
+  7CA7B7E6 C1AF74F6 152E99B7 B1FCF9BB E973DE7F 5BDDEB86 C71E3B49 1765308B 
+  5FB0DA06 B92AFE7F 494E8A9E 07B85737 F3A58BE1 1A48A229 C37C1E69 39F08678 
+  80DDCD16 D6BACECA EEBC7CF9 8428787B 35202CDC 60E4616A B623CDBD 230E3AFB 
+  418616A9 4093E049 4D10AB75 27E86F73 932E35B5 8862FDAE 0275156F 719BB2F0 
+  D697DF7F 28
+        quit
+!
+license udi pid CSR1000V sn 99HQLYF2CNF
+diagnostic bootup level minimal
+memory free low-watermark processor 72355
+!
+!
+spanning-tree extend system-id
+!
+username admin privilege 15 secret 9 $14$uNUq$xmfMf4bodhGlrU$wDIzNVX/5rWJiAgqGhLO7yPbXk2t0wmsaI55NcazQ9Y
+!
+redundancy
+!
+!
+!
+no crypto ikev2 diagnose error
+!
+!
+cdp run   
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+!
+interface Loopback65528
+ vrf forwarding 65528
+ ip address 192.168.1.1 255.255.255.255
+!
+interface Tunnel0
+ ip unnumbered GigabitEthernet1
+ tunnel source GigabitEthernet1
+ tunnel mode sdwan
+!
+interface GigabitEthernet1
+ ip address 10.99.0.2 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ ip address 192.168.86.214 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet3
+ no ip address
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet4
+ no ip address
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+router omp
+!
+ip forward-protocol nd
+no ip http server
+ip http secure-server
+!
+ip nat route vrf 65528 0.0.0.0 0.0.0.0 global
+no ip nat service skinny tcp port 2000
+no ip nat service sip tcp port 5060
+no ip nat service sip udp port 5060
+no ip nat service H225
+no ip nat service ras
+no ip nat service rtsp udp
+no ip nat service rtsp tcp
+no ip nat service dns tcp
+no ip nat service dns udp
+no ip nat service netbios-ns tcp
+no ip nat service netbios-ns udp
+no ip nat service netbios-ssn
+no ip nat service netbios-dgm
+no ip nat service ldap
+no ip nat service sunrpc udp
+no ip nat service sunrpc tcp
+no ip nat service msrpc tcp
+no ip nat service tftp
+no ip nat service rcmd
+no ip nat service pptp
+no ip nat service ftp
+no ip nat service gatekeeper
+no ip nat service dns-reset-ttl
+ip route 0.0.0.0 0.0.0.0 10.99.0.254
+ip ssh version 2
+ip scp server enable
+!
+!
+!
+!
+!
+!
+!
+!         
+!
+control-plane
+!
+!
+!
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0 4
+ transport input ssh
+line vty 5 80
+ transport input ssh
+!
+!
+!
+!
+!
+!
+netconf-yang
+netconf-yang feature candidate-datastore
+end       
+

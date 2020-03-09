@@ -1,0 +1,68 @@
+﻿﻿vSmart# show run
+system
+ host-name             vSmart
+ system-ip             10.100.100.4
+ site-id               100
+ admin-tech-on-failure
+ organization-name     "cloudkod sdwan"
+ clock timezone Europe/Bucharest
+ vbond 10.10.0.3
+ aaa
+  auth-order local radius tacacs
+  usergroup basic
+   task system read write
+   task interface read write
+  !
+  usergroup netadmin
+  !
+  usergroup operator
+   task system read
+   task interface read
+   task policy read
+   task routing read
+   task security read
+  !
+  usergroup tenantadmin
+  !
+  user admin
+   password $6$7rkeZsB9USGBA/8/$gN4UhuRPSwq7smwF8JntMfu5qeH1JU3XdF6a5Zbn/kziAqFOO7Lgm.wmW30ATqGmpuQq7oey2O9nHQoRr3SuE/
+  !
+ !
+ logging
+  disk
+   enable
+  !
+ !
+ ntp
+  server 0.pool.ntp.org
+   version 4
+  exit
+ !
+!
+omp
+ no shutdown
+ graceful-restart
+!
+vpn 0
+ interface eth1
+  ip address 10.10.0.4/24
+  tunnel-interface
+   allow-service dhcp
+   allow-service dns
+   allow-service icmp
+   allow-service sshd
+   allow-service netconf
+   allow-service ntp
+   allow-service stun
+  !
+  no shutdown
+ !
+ ip route 0.0.0.0/0 10.10.0.254
+!
+vpn 512
+ interface eth0
+  ip address 192.168.86.164/24
+  no shutdown
+ !
+ ip route 0.0.0.0/0 192.168.86.1
+!

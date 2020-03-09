@@ -1,0 +1,66 @@
+﻿﻿vManage# show run
+system
+ host-name             vManage
+ system-ip             10.100.100.2
+ site-id               100
+ admin-tech-on-failure
+ sp-organization-name  "cloudkod sdwan"
+ organization-name     "cloudkod sdwan"
+ clock timezone Europe/Bucharest
+ vbond 10.10.0.3
+ aaa
+  auth-order local radius tacacs
+  usergroup basic
+   task system read write
+   task interface read write
+  !
+  usergroup netadmin
+  !
+  usergroup operator
+   task system read
+   task interface read
+   task policy read
+   task routing read
+   task security read
+  !
+  usergroup tenantadmin
+  !
+  user admin
+   password $6$.rXZTEXZczCm5/md$6dTYACI6ApCM5zOQXkC0fQC4OdjWoIxa4p/akB7rCen2vZM7Zw4sZgQr4OWC5lSIkY2t2JRU3sa81QrbU7BiB/
+  !
+ !
+ logging
+  disk
+   enable
+  !
+ !
+ ntp
+  server 0.pool.ntp.org
+   version 4
+  exit
+ !
+!
+vpn 0
+ interface eth1
+  ip address 10.10.0.2/24
+  tunnel-interface
+   allow-service dhcp
+   allow-service dns
+   allow-service icmp
+   allow-service sshd
+   allow-service netconf
+   allow-service ntp
+   allow-service stun
+   allow-service https
+  !
+  no shutdown
+ !
+ ip route 0.0.0.0/0 10.10.0.254
+!
+vpn 512
+ interface eth0
+  ip address 192.168.86.162/24
+  no shutdown
+ !
+ ip route 0.0.0.0/0 192.168.86.1
+!

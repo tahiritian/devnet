@@ -1,0 +1,76 @@
+﻿﻿vEdge# show run
+system
+ host-name               vEdge
+ system-ip               10.100.100.11
+ site-id                 1
+ admin-tech-on-failure
+ no route-consistency-check
+ organization-name       "cloudkod sdwan"
+ clock timezone Europe/Bucharest
+ vbond 10.10.0.3
+ aaa
+  auth-order local radius tacacs
+  usergroup basic
+   task system read write
+   task interface read write
+  !
+  usergroup netadmin
+  !
+  usergroup operator
+   task system read
+   task interface read
+   task policy read
+   task routing read
+   task security read
+  !
+  usergroup tenantadmin
+  !
+  user admin
+   password $6$PNzMbgZJGedhqX21$hM9NCE5gDlgMOI5IULwiETaq1ux.3eqU9HJHO6ZKvoPwAzmcd/19pL0UMFw97KkCNLIQUfrTMnpmdLwmsAuRu1
+  !
+ !
+ logging
+  disk
+   enable
+  !
+ !
+!
+omp
+ no shutdown
+ graceful-restart
+ advertise connected
+ advertise static
+!
+security
+ ipsec
+  authentication-type ah-sha1-hmac sha1-hmac
+ !
+!
+vpn 0
+ interface ge0/0
+  ip address 10.99.0.1/24
+  ipv6 dhcp-client
+  tunnel-interface
+   encapsulation ipsec
+   no allow-service bgp
+   allow-service dhcp
+   allow-service dns
+   allow-service icmp
+   allow-service sshd
+   allow-service netconf
+   allow-service ntp
+   allow-service ospf
+   allow-service stun
+   allow-service https
+  !
+  no shutdown
+ !
+ ip route 0.0.0.0/0 10.99.0.254
+!
+vpn 512
+ interface eth0
+  ip dhcp-client
+  ipv6 dhcp-client
+  no shutdown
+ !
+!
