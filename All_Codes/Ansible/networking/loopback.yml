@@ -1,0 +1,22 @@
+---
+- name: Create Loopbacks on device
+  hosts: switches
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Create loopback shell
+      with_items: "{{local_loopback}}"
+      nxos_interface:
+        interface: "{{item.name}}"
+        mode: layer3
+        description: "{{item.desc}}"
+        admin_state: up
+
+    - name: Set new loopback configs
+      with_items: "{{local_loopback}}"
+      nxos_l3_interfaces:
+        config:
+          - name: "{{item.name}}"
+            ipv4: 
+            - address: "{{item.ip_address}}"
+        state: merged
